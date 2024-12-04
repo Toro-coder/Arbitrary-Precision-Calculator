@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="76a97fe9-90ce-4256-ac91-1550862316ac" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/BigIntCalculator.py" beforeDir="false" afterPath="$PROJECT_DIR$/BigIntCalculator.py" afterDir="false" />
-    </list>
+    <list default="true" id="76a97fe9-90ce-4256-ac91-1550862316ac" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
