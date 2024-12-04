@@ -71,6 +71,7 @@ class Calculator:
         quotient = []
         remainder = 0
         num2 = int(num2)
+        # check if the divisor is zero hence raising an error
         if num2 == 0:
             raise ZeroDivisionError("cannot divide by zero")
         for digit in num1:
