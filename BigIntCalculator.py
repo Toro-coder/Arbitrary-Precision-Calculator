@@ -2,13 +2,19 @@
 # this calculator does not use native support and is for very large numbers
 # creating a class for easy management of the fuctionalities
 class Calculator:
+    # Here we do Greatest Common Divisor(GCD) of the two number which will in
+    # simplifying fraction in addition, subtraction, multiplication and division
+    def gcd(self, a, b):
+        while b != "0":
+            a, b = b, self.modulus(a, b)
+        return a
+
     # Addition
     def add(self, num1, num2):
         # here you add large integer numbers which are represented as strings
         result = [] # this is a list storing result digits
         carry = 0 # holds an overflow value from addition of the two digits
         num1, num2 = num1[::-1], num2[::-1] #makes the string to start addition from the least significant digit
-
         # loop through the longer number
         for i in range(max(len(num1), len(num2))):
             # get digit or  0 if out of range
@@ -27,6 +33,20 @@ class Calculator:
 
         # reverse the result to get the correct order
         return "".join(result[::-1])
+
+    # Addition  of fraction
+    def add_fraction(self, fraction1, fraction2):
+        # we are splitting the numerator and the denominator
+        numerator1, denominator1 = fraction1.split("/")
+        numerator2, denominator2 = fraction2.split("/")
+        # here we are cross multiplying the denominator and the numerator then we add the results
+        numerator = self.add(self.multiply(numerator1, denominator2), self.multiply(numerator2, denominator1))
+        # after the above step we multipy the denominator
+        denominator = self.multiply(denominator1, denominator2)
+        # here we do the gcd of the denominator and numerator
+        gcd = self.gcd(numerator, denominator)
+        # we then divide the denominator by the numerator
+        return f"{self.division(numerator, gcd)}/{self.division(denominator, gcd)}"
 
     #Subtraction
     def subtract(self, num1, num2):
@@ -51,6 +71,20 @@ class Calculator:
             result.pop()
         return "".join(result[::-1])
 
+    # subtraction of fractions
+    def subtract_fraction(self, fraction1, fraction2):
+        # splitting the numerator and denominator
+        numerator1, denominator1 = fraction1.split("/")
+        numerator2, denominator2 = fraction2.split("/")
+        # cross-multipy the numerator with the denominator the subtract
+        numerator = self.subtract(self.multiply(numerator1, denominator2), self.multiply(numerator2, denominator1))
+        # multiply the denominators
+        denominator = self.multiply(denominator1, denominator2)
+        # here we do the gcd of the denominator and numerator
+        gcd = self.gcd(numerator, denominator)
+        # we then divide the denominator by the numerator
+        return f"{self.division(numerator, gcd)}/{self.division(denominator, gcd)}"
+
     #Multiplication
     def multiply(self, num1, num2):
         num1, num2 = num1[::-1], num2[::-1]
@@ -65,6 +99,19 @@ class Calculator:
         while len(result) > 1 and result[-1] == 0:
             result.pop() # removing the trailing zeros
         return "".join(map(str, result[::-1]))
+
+    #Multipying fractions
+    def multiply_fraction(self, fraction1, fraction2):
+        # split the numerator and the denominator
+        numerator1, denominator1 = fraction1.split("/")
+        numerator2, denominator2 = fraction2.split("/")
+        # multiplying by the reciprocal
+        numerator = self.multiply(numerator1, numerator2)
+        denominator = self.multiply(denominator1, denominator2)
+        # simplifying by doing the gcd of the numerator and denominator
+        gcd = self.gcd(numerator, denominator)
+        # division of the denominator by gcd
+        return f"{self.division(numerator, gcd)}/{self.division(denominator, gcd)}"
 
     #Division
     def division(self, num1, num2):
@@ -81,6 +128,19 @@ class Calculator:
         while len(quotient) > 1 and quotient[0] == '0':
             quotient.pop(0)
         return "".join(quotient)
+
+    #Division of fractions
+    def divide_fraction(self, fraction1, fraction2):
+        # splitting the numerator and denominator
+        numerator1, denominator1 = fraction1.split('/')
+        numerator2, denominator2 = fraction2.split('/')
+        # we do multiplication with the reciprocal
+        numerator = self.multiply(numerator1, denominator2)
+        denominator = self.multiply(denominator1, numerator2)
+        # gcd of numerator & denominator
+        gcd = self.gcd(numerator, denominator)
+        # dividing the denominator by numerator
+        return f'{self.division(numerator, gcd)}/{self.division(denominator, gcd)}'
 
     # Modulo
     def modulus(self,num1, num2):
@@ -164,18 +224,34 @@ def repl():
                 a = input("Enter first number: ")
                 b = input("Enter second number: ")
                 print("Result:", calc.add(a, b))
+            elif command == "add_fraction":
+                fraction1 = input("Enter the first fraction: ")
+                fraction2 = input("Enter the second fraction: ")
+                print("Result: ", calc.add_fraction(fraction1, fraction2))
             elif command == 'subtract':
                 a = input("Enter first number: ")
                 b = input("Enter second number: ")
                 print("Result:", calc.subtract(a, b))
+            elif command == 'subtract_fraction':
+                fraction1 = input("Enter first fraction: ")
+                fraction2 = input("Enter second fraction: ")
+                print("Result: ", calc.subtract_fraction(fraction1, fraction2))
             elif command == 'multiply':
                 a = input("Enter first number: ")
                 b = input("Enter second number: ")
                 print("Result:", calc.multiply(a, b))
+            elif command == 'multiply_fraction':
+                fraction1 = input("Enter the first fraction: ")
+                fraction2 = input("Enter the second fraction: ")
+                print("Result: ", calc.multiply_fraction(fraction1, fraction2))
             elif command == 'division':
                 a = input("Enter first number: ")
                 b = input("Enter second number: ")
                 print("Result:", calc.division(a, b))
+            elif command == 'divide_fraction':
+                fraction1 = input("Enter the first fraction: ")
+                fraction2 = input("Enter the second fraction: ")
+                print("Result: ", calc.divide_fraction(fraction1, fraction2))
             elif command == 'modulus':
                 a = input("Enter first number: ")
                 b = input("Enter second number: ")
